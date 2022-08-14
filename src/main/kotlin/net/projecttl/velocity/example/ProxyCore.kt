@@ -10,7 +10,7 @@ class ProxyCore(server: ProxyServer, logger: Logger) {
     init {
         instance = server
         server.commandManager.apply {
-            register("lobby", TestCommand)
+            register("test", TestCommand)
         }
 
         logger.info("plugin enabled!")
