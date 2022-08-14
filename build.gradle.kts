@@ -1,29 +1,42 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.7.10"
-    application
+    id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 group = "net.projecttl"
-version = "1.0-SNAPSHOT"
+version = "1.0.0-SNAPSHOT"
+
+java.toolchain {
+    languageVersion.set(JavaLanguageVersion.of(17))
+}
 
 repositories {
     mavenCentral()
+    maven("https://papermc.io/repo/repository/maven-public/")
 }
 
 dependencies {
-    testImplementation(kotlin("test"))
+    implementation(kotlin("stdlib"))
+    compileOnly("com.velocitypowered:velocity-api:3.1.2-SNAPSHOT")
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
+tasks {
+    withType<KotlinCompile> {
+        kotlinOptions.jvmTarget = "17"
+    }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
-}
+    processResources {
+        filesMatching("*.json") {
+            expand(project.properties)
+        }
+    }
 
-application {
-    mainClass.set("MainKt")
+    withType<ShadowJar> {
+        archiveBaseName.set(project.name)
+        archiveClassifier.set("")
+        archiveVersion.set("")
+    }
 }

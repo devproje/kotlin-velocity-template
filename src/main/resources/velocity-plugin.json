@@ -1,0 +1,10 @@
+{
+  "id": "${rootProject.name}",
+  "name": "Kotlin Velocity Template",
+  "description": "Minecraft Velocity proxy plugin template for Kotlin",
+  "version": "${project.version}",
+  "authors": [
+    "Project_TL"
+  ],
+  "main": "${main}"
+}
